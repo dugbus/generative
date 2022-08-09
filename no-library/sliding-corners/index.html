@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cornered</title>
+  <style>
+    html {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: rgb(62 55 45);
+      background: #16161d;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .box {
+      border: 1vh solid darkred;
+      width: 12vh;
+      height: 12vh;
+      background: linear-gradient(rgba(255, 248, 0, 1) 0%, rgba(255, 124, 0, 1) 50%, rgba(255, 0, 0, 1) 100%);
+      transition: border-radius 1s, background 1s;
+      box-sizing: border-box;
+    }
+
+    .corner-1 {
+      border-radius: 50% 0 0 0;
+    }
+
+    .corner-2 {
+      border-radius: 0 50% 0 0;
+    }
+
+    .corner-3 {
+      border-radius: 0 0 50% 0;
+    }
+
+    .corner-4 {
+      border-radius: 0 0 0 50%;
+    }
+
+    .row-1 {
+      background: linear-gradient(rgba(255, 255, 0, 1) 0%, rgba(255, 237, 0, 1) 100%);
+    }
+
+    .row-2 {
+      background: linear-gradient(rgba(255, 233, 0, 1) 0%, rgba(255, 207, 0, 1) 100%);
+    }
+
+    .row-3 {
+      background: linear-gradient(rgba(255, 201, 0, 1) 0%, rgba(255, 171, 0, 1) 100%);
+    }
+
+    .row-4 {
+      background: linear-gradient(rgba(255, 165, 0, 1) 0%, rgba(255, 131, 0, 1) 100%);
+    }
+
+    .row-5 {
+      background: linear-gradient(rgba(255, 124, 0, 1) 0%, rgba(255, 91, 0, 1) 100%);
+    }
+
+    .row-6 {
+      background: linear-gradient(rgba(255, 85, 0, 1) 0%, rgba(255, 54, 0, 1) 100%);
+    }
+
+    .row-7 {
+      background: linear-gradient(rgba(255, 48, 0, 1) 0%, rgba(255, 23, 0, 1) 100%);
+    }
+
+    .row-8 {
+      background: linear-gradient(rgba(255, 18, 0, 1) 0%, rgba(255, 0, 0, 1) 100%);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main" class="wrapper">
+  </div>
+  <script>
+    let start;
+    let size = 0;
+    let count = 0;
+    const box = document.createElement("div");
+    box.classList.add("box");
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    size = Math.round(height / 8);
+
+    count = Math.round(width / size);
+
+    console.log(size, count);
+
+    for (var r = 1; r < 9; r++) {
+      for (var i = 0; i < count; i++) {
+        document.getElementById("main").appendChild(box.cloneNode(true)).classList.add('row-' + r);
+      }
+    }
+
+    const grid = document.getElementsByClassName('box');
+
+    function flip(timestamp) {
+      if (start === undefined)
+        start = timestamp;
+      const elapsed = timestamp - start;
+      //console.log(elapsed);
+
+      var target = Math.floor(Math.random() * count * 8);
+      var corner = Math.floor(Math.random() * 4) + 1;
+      var row = Math.floor(Math.random() * 8) + 1;
+      grid[target].classList.remove("corner-1", "corner-2", "corner-3", "corner-4");
+      //grid[target].classList.remove("row-1", "row-2", "row-3", "row-4", "row-5", "row-6", "row-7", "row-8");
+      grid[target].classList.add("corner-" + corner);
+      //grid[target].classList.add("row-" + row);
+      window.requestAnimationFrame(flip)
+    }
+
+    flip();
+  </script>
+</body>
+
+</html>

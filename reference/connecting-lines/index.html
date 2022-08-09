@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <title>Dead In Every Timeline (Except This One)</title>
+  <meta name="description"
+        content="Dead In Every Timeline (Except This One)">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+  <link rel="preload"
+        as="style"
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Open+Sans+Condensed:wght@700&display=swap">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Open+Sans+Condensed:wght@700&display=swap"
+        media="print"
+        onload="this.media='all'">
+  <noscript>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Open+Sans+Condensed:wght@700&display=swap">
+  </noscript>
+  <link rel="icon"
+        type="image/svg+xml"
+        href="/assets/img/favicon.svg">
+  <link rel="stylesheet"
+        href="/assets/css/styles.css">
+</head>
+<body style="background: var(--eigengrau)">
+
+<canvas id="myCanvas" width="800" height="600"></canvas>
+<script>
+ 
+function line(particle, particle2) {
+  context.beginPath();
+  context.moveTo(particle.x, particle.y);
+  context.lineTo(particle2.x, particle2.y);
+  context.stroke();
+}
+ 
+function animate() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < maxParticles; i++) {
+    let particle = particles[i];
+    context.fillRect(particle.x - particleSize / 2, particle.y - particleSize / 2, particleSize, particleSize);
+    for (let j = 0; j < maxParticles; j++) {
+      if (i != j) {
+        let particle2 = particles[j];
+        let distanceX = Math.abs(particle.x - particle2.x);
+        let distanceY = Math.abs(particle.y - particle2.y);
+        if (distanceX < threshold && distanceY < threshold) {
+          context.lineWidth = ((threshold * 2) - (distanceX + distanceY)) / 50;
+          let color = 200 - Math.floor(distanceX + distanceY);
+          context.strokeStyle = 'rgb(' + color + ',' + color + ',' + color + ')';
+          line(particle, particle2);
+        }
+      }
+    }
+    particle.x = particle.x + particle.vx;
+    particle.y = particle.y + particle.vy;
+    if (particle.x > canvas.width - particleSize || particle.x < particleSize)
+      particle.vx = -particle.vx;
+    if (particle.y > canvas.height - particleSize || particle.y < particleSize)
+      particle.vy = -particle.vy;
+  }
+  window.requestAnimationFrame(animate);
+}
+ 
+let canvas = document.getElementById('myCanvas');
+let context = canvas.getContext('2d');
+let particles = [];
+let particleSize = 4;
+let maxParticles = 40;
+let threshold = 100;
+for (let i = 0; i < maxParticles; i++) {
+  let particle = {
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: Math.random(),
+    vy: Math.random()
+  }
+  particles.push(particle);
+}
+context.fillStyle = 'white';
+animate();
+ 
+</script>
+
+</body>
+</html>

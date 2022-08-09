@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All The Things Around Me</title>
+  <style>
+    body {
+      background:#ffd700;
+      margin: 0;
+      height: 100vh;
+    }
+    .landing-logo {
+      height: 100%;
+      text-align: center;
+      z-index: 100;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .landing-logo img {
+      height: 80%;
+      width: 80%;
+    }
+
+    .band {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: #fff;
+      transition: 2s;
+      transition-timing-function: linear;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body class="landing">
+
+  <div class="band"></div>
+  <div class="band"></div>
+  <div class="band"></div>
+  <div class="band"></div>
+
+  <div class="landing-logo">
+    <img src="notive.svg" alt="Notive head map">
+  </div>
+  
+  <script>
+    function drawBands() {
+      let bands = document.getElementsByClassName('band');
+      let count = bands.length;
+  
+      for (i =0; i < count; i++) {
+          var left = Math.random() * 100;
+          var right = Math.random() * 100;
+          while (left + right > 100) {
+          left = Math.random() * 100;
+          right = Math.random() * 100;
+        }
+
+          var red = Math.random() * 255;
+          var green = Math.random() * 255;
+          var blue = Math.random() * 255;
+          var alpha = Math.random();
+          console.log(left + ' : ' + right);
+          bands[i].style.left = left + '%';
+          bands[i].style.right = right + '%';
+          bands[i].style.backgroundColor = 'rgba(' + [red,green,blue,alpha].join(',') + ')'
+        }
+    }
+  
+  window.requestAnimationFrame(drawBands);
+  
+  var myVar = setInterval(drawBands, 2000)
+  </script>
+</body>
+</html>
