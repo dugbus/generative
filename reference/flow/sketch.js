@@ -2,8 +2,11 @@ let particles = [];
 const num = 1000;
 const noiseScale = 0.01;
 
+const screenWidth = document.body.clientWidth;
+const screenHeight = document.body.clientHeight;
+
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(screenWidth, screenHeight);
   for (let i = 0; i < num; i++) {
     particles.push(createVector(random(width), random(height)));
   }
@@ -19,7 +22,7 @@ function draw() {
     let a = TAU * n;
     p.x += cos(a);
     p.y += sin(a);
-    if(!onScreen(p)) {
+    if (!onScreen(p)) {
       p.x = random(width);
       p.y = random(height);
     }

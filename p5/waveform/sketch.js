@@ -5,6 +5,9 @@ let c1, c2;
 let waves = [];
 
 let x, y, mid;
+let inc = 0.01;
+let xOffset = 0;
+let yOffset = 0;
 
 const step = 3;
 
@@ -45,12 +48,15 @@ function fillArray() {
 
   x = 0;
   y = 0;
+  //xOffset = 0;
   mid = height / 2;
+  noiseSeed(47);
 
-  waves[0] = random(screenHeight / 2);
-  for (let i = 1; i < screenWidth; i++) {
-    waves[i] = waves[i - 1] + random(-2, 2);
+  for (let i = 0; i < width; i++) {
+    waves[i] = noise(xOffset, yOffset) * mid;
+    xOffset += inc;
   }
+  yOffset += inc;
 }
 
 function mousePressed() {

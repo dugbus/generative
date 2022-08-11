@@ -2,6 +2,7 @@ let II = false;
 
 let xoff = 0;
 let yoff = 0;
+let zoff = 0;
 
 let y = 0;
 let res = 0.01;
@@ -20,7 +21,7 @@ function setup() {
 
 function draw() {
   for (let x = 0; x < width; x++) {
-    elevation = noise(xoff, yoff);
+    elevation = noise(xoff, yoff, zoff);
     stroke(elevation * 255);
     point(x, y);
     xoff += res;
@@ -29,8 +30,8 @@ function draw() {
   yoff += res;
   y++;
   if (y > height) {
-    noLoop();
-    console.log('done');
+    y = 0;
+    zoff += res;
   }
 }
 
