@@ -5,7 +5,7 @@ let density = 50
 let seed = 50
 
 function setup() {
-    createCanvas(windowWidth, windowHeight)
+    createCanvas(1080, 1350)
     background(30)
     angleMode(DEGREES)
     noiseDetail(2)
@@ -38,4 +38,8 @@ function draw() {
 
         circle(points[i].x, points[i].y, 2)
     }
+}
+
+function mouseClicked() {
+    saveCanvas('flowfield', 'png');
 }
