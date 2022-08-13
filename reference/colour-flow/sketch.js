@@ -1,14 +1,14 @@
 
 let points = []
-let angleScale = 0.001
-let density = 30
-let seed = 42
+let noiseScale = 0.001
+let density = 50
+let seed = 50
 
 function setup() {
     createCanvas(windowWidth, windowHeight)
     background(30)
     angleMode(DEGREES)
-    noiseDetail(1)
+    noiseDetail(2)
     noiseSeed(seed)
     randomSeed(seed)
     colorMode(HSB, 360, 100, 100, 100)
@@ -29,13 +29,13 @@ function draw() {
 
     for (let i = 0; i < points.length; i++) {
 
-        var angle = map(noise(points[i].x * angleScale, points[i].y * angleScale), 0, 1, 0, 720)
+        var angle = map(noise(points[i].x * noiseScale, points[i].y * noiseScale), 0, 1, 0, 720)
 
         fill(angle, 100, 100, 10)
 
         points[i].add(createVector(cos(angle), sin(angle)))
 
 
-        circle(points[i].x, points[i].y, 5)
+        circle(points[i].x, points[i].y, 2)
     }
 }
