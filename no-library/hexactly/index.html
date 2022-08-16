@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en-GB">
+
 <head>
     <meta charset="UTF-8">
     <title>Hexactly</title>
-    <meta name="description" content="WIP - the impact of events on a particular tile spread across the map affecting the disposition its neighbours">
+    <meta name="description"
+        content="WIP - the impact of events on a particular tile spread across the map affecting the disposition its neighbours">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+
 <body style="overflow: hidden;">
     <pre>
             H__________________________________
@@ -32,10 +35,11 @@
     <script src="./js/hexactly.js"></script>
     <script>
         // p1 is radius in pixels, p2 (optional) hue value - will randomize if omitted
-        var map = Hx.Map(20, 120/*, 120*/) 
+        var map = Hx.Map(20, 120/*, 120*/)
             .refresh(10)
             .carpetBombTargets(30, 1, 0, 50)
             .carpetBombTargetsRR(15, 2, 15, 100)
     </script>
 </body>
+
 </html>

@@ -1,96 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Starfield</title>
-    <style>
-      body {
-        margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Starfield</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    canvas {
+      display: block;
+      background: radial-gradient(ellipse at center,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0) 45%,
+          rgba(0, 0, 0, 0.65) 100%),
+        #f9f9e8 url(/assets/glencoe.jpg) no-repeat scroll center center / cover;
+      background: radial-gradient(ellipse at center,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0) 45%,
+          rgba(0, 0, 0, 0.65) 100%),
+        linear-gradient(to left bottom, #051937, #582d61, #b03b67, #ee674b, #fcb117) no-repeat scroll center center / cover;
+    }
+
+    #stats {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 1rem;
+      color: #bada55;
+      padding: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="stats"></div>
+  <canvas id="myCanvas">
+    <p>
+      Your browser does not support HTML5 canvas, please consider updating or changing your browser for a better
+      experience.
+    </p>
+  </canvas>
+  <script>
+    function animate() {
+      let size;
+      if (stars.length < 300 && Math.random() < 0.2) {
+        let star = { x: 0, y: 0, vx: -5 + Math.random() * 10, vy: -5 + Math.random() * 10 };
+        stars.push(star);
       }
-      canvas {
-        display: block;
-        background: radial-gradient(
-            ellipse at center,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 0) 45%,
-            rgba(0, 0, 0, 0.65) 100%
-          ),
-          #f9f9e8 url(/assets/glencoe.jpg) no-repeat scroll center center / cover;
-        background: radial-gradient(
-            ellipse at center,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 0) 45%,
-            rgba(0, 0, 0, 0.65) 100%
-          ),
-          linear-gradient(to left bottom, #051937, #582d61, #b03b67, #ee674b, #fcb117) no-repeat scroll center center /
-            cover;
-      }
-      #stats {
-        position: absolute;
-        left: 0;
-        top: 0;
-        font-size: 1rem;
-        color: #bada55;
-        padding: 1rem;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="stats"></div>
-    <canvas id="myCanvas">
-      <p>
-        Your browser does not support HTML5 canvas, please consider updating or changing your browser for a better
-        experience.
-      </p>
-    </canvas>
-    <script>
-      function animate() {
-        let size;
-        if (stars.length < 300 && Math.random() < 0.2) {
-          let star = { x: 0, y: 0, vx: -5 + Math.random() * 10, vy: -5 + Math.random() * 10 };
-          stars.push(star);
+      stats.innerHTML = "count : " + stars.length;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let n = 0; n < stars.length; n++) {
+        stars[n].x = stars[n].x + stars[n].vx;
+        stars[n].y = stars[n].y + stars[n].vy;
+
+        size = Math.abs(stars[n].y / 5 + n / 200);
+
+        if (
+          stars[n].x > _w / 2 ||
+          stars[n].x < -_w / 2 - size ||
+          stars[n].y > _h / 2 ||
+          stars[n].y < -_h / 2 - size
+        ) {
+          stars[n].x = 0;
+          stars[n].y = 0;
+          size = n / 200;
         }
-        stats.innerHTML = "count : " + stars.length;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let n = 0; n < stars.length; n++) {
-          stars[n].x = stars[n].x + stars[n].vx;
-          stars[n].y = stars[n].y + stars[n].vy;
-
-          size = Math.abs(stars[n].y / 5 + n / 200);
-
-          if (
-            stars[n].x > _w / 2 ||
-            stars[n].x < -_w / 2 - size ||
-            stars[n].y > _h / 2 ||
-            stars[n].y < -_h / 2 - size
-          ) {
-            stars[n].x = 0;
-            stars[n].y = 0;
-            size = n / 200;
-          }
-          color = Math.floor(Math.abs(stars[n].x) / 2 + Math.abs(stars[n].y) / 2);
-          ctx.fillStyle = "rgba(" + [color, color, color, 0.5].join(",") + ")";
-          ctx.beginPath();
-          //ctx.arc(_w / 2 + stars[n].x, _h / 2 + stars[n].y, Math.abs(stars[n].y / 100 + n / 200), 0, 2 * Math.PI);
-          //ctx.fill();
-          ctx.fillRect(_w / 2 + stars[n].x, _h / 2 + stars[n].y, size, size);
-        }
-        window.requestAnimationFrame(animate); // request another animation frame
+        color = Math.floor(Math.abs(stars[n].x) / 2 + Math.abs(stars[n].y) / 2);
+        ctx.fillStyle = "rgba(" + [color, color, color, 0.5].join(",") + ")";
+        ctx.beginPath();
+        //ctx.arc(_w / 2 + stars[n].x, _h / 2 + stars[n].y, Math.abs(stars[n].y / 100 + n / 200), 0, 2 * Math.PI);
+        //ctx.fill();
+        ctx.fillRect(_w / 2 + stars[n].x, _h / 2 + stars[n].y, size, size);
       }
+      window.requestAnimationFrame(animate); // request another animation frame
+    }
 
-      let canvas = document.getElementById("myCanvas"),
-        ctx = canvas.getContext("2d"),
-        stats = document.getElementById("stats"),
-        stars = [],
-        _w = window.innerWidth,
-        _h = window.innerHeight;
+    let canvas = document.getElementById("myCanvas"),
+      ctx = canvas.getContext("2d"),
+      stats = document.getElementById("stats"),
+      stars = [],
+      _w = window.innerWidth,
+      _h = window.innerHeight;
 
-      canvas.width = _w;
-      canvas.height = _h;
+    canvas.width = _w;
+    canvas.height = _h;
 
-      window.requestAnimationFrame(animate); // initialize the animation
-    </script>
-  </body>
+    window.requestAnimationFrame(animate); // initialize the animation
+  </script>
+</body>
+
 </html>

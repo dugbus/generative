@@ -1,14 +1,13 @@
-Hx = (function () {
+const Hx = (function () {
 
   const _maxHue = 241
 
-  // helpers
-  function _getHSL(h, s = '97%', l = '62%') { return 'hsl(' + h + ', ' + s + ', ' + l + ')' }
+  function _getHSL(h, s = '97%', l = '62%') { return `hsl(${h},${s},${l})` }
 
   function _hexPoints(x, y, radius) {
-    var points = []
-    for (var theta = 0; theta < Math.PI * 2; theta += Math.PI / 3) {
-      var pointX, pointY;
+    let points = []
+    for (let theta = 0; theta < Math.PI * 2; theta += Math.PI / 3) {
+      let pointX, pointY;
 
       pointX = Math.round(x + radius * Math.sin(theta))
       pointY = Math.round(y + radius * Math.cos(theta))
@@ -20,13 +19,13 @@ Hx = (function () {
   }
 
   function Polygon() {
-    var pointList = [];
+    let pointList = [];
 
     this.node = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
 
     function build(arg) {
-      var res = [];
-      for (var i = 0, l = arg.length; i < l; i++) {
+      let res = [];
+      for (let i = 0, l = arg.length; i < l; i++) {
         res.push(arg[i].join(','));
       }
       return res.join(' ');
@@ -47,7 +46,7 @@ Hx = (function () {
     };
 
     this.points = function () {
-      for (var i = 0, l = arguments.length; i < l; i += 2) {
+      for (let i = 0, l = arguments.length; i < l; i += 2) {
         pointList.push([arguments[i], arguments[i + 1]]);
       }
       this.attribute('points', build(pointList));
@@ -71,7 +70,7 @@ Hx = (function () {
     function _getIndex(row, col) { return (row * _cols) + col }
 
     function _getNeighbours(row, col) {
-      neighbours = []
+      let neighbours = []
       // even rows
       if (row % 2 == 0) {
         // upper neighbours
@@ -110,7 +109,7 @@ Hx = (function () {
     }
 
     function _propogate(todo, range, multiplier = 1, delay = 0, up = true) {
-      var next = todo
+      let next = todo
 
       todo.forEach(id => { _hexs[id].cry = up ? Math.min(_hexs[id].cry + multiplier, _maxHue - 1) : Math.max(_hexs[id].cry - multiplier, 0) })
 
@@ -134,13 +133,13 @@ Hx = (function () {
     }
 
     function _bomb(range = 10, multiplier = 1, delay = 0) {
-      targetHex = _hexs[Math.floor(Math.random() * _hexs.length)]
+      let targetHex = _hexs[Math.floor(Math.random() * _hexs.length)]
       _propogate([targetHex.id,], range, multiplier, delay, Math.random() < .5)
     }
 
-    function _bombRR(maxRange = 10, multiplier = 1, delay = 0) {
-      targetHex = _hexs[Math.floor(Math.random() * _hexs.length)]
-      range = Math.ceil(Math.random() * maxRange)
+    function _bombRR(maxRange = 10, multiplier = 1, delay = 50000) {
+      let targetHex = _hexs[Math.floor(Math.random() * _hexs.length)]
+      let range = Math.ceil(Math.random() * maxRange)
       _propogate([targetHex.id,], range, multiplier, delay, Math.random() < .5)
     }
 
@@ -155,7 +154,9 @@ Hx = (function () {
     function _refresh(repeat = 0) {
 
       _hexs.forEach(hex => {
-        if (inc = (hex.hue < hex.cry) - (hex.hue > hex.cry)) hex.e.style.fill = _getHSL(hex.hue += inc)
+        let inc = (hex.hue < hex.cry) - (hex.hue > hex.cry)
+        hex.hue += inc
+        hex.e.style.fill = _getHSL(hex.hue)
         hex.e.style.stroke = '#000'
       })
 
@@ -163,8 +164,8 @@ Hx = (function () {
     }
 
     // populate 
-    for (row = 0; row < _rows; row++) {
-      for (col = 0; col < _cols; col++) {
+    for (let row = 0; row < _rows; row++) {
+      for (let col = 0; col < _cols; col++) {
         let x = row % 2 ? (_width / 2) + (col * (_width + 1)) : _width + (col * (_width + 1))
         let y = row == 0 ? _height / 2 : (_height / 2) + (row * (_height + 1) * .75)
         _hexs.push({
@@ -182,7 +183,7 @@ Hx = (function () {
     // console.log(_hexs)
 
     // add and size the svg 
-    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     svg.id = 'hexMap'
     svg.style.position = 'absolute'
     svg.style.height = (pageHeight + 1.5 * _height) + "px"
@@ -193,7 +194,7 @@ Hx = (function () {
 
     // create add and render the hexagons
     _hexs.forEach(hex => {
-      var pg = new Polygon(_hexPoints(hex.x, hex.y, radius))
+      let pg = new Polygon(_hexPoints(hex.x, hex.y, radius))
       pg.node.id = '_' + hex.id
       pg.attribute('style', 'stroke-width: 2px; stroke: black; fill: ' + _getHSL(hex.hue))
       svg.appendChild(pg.node)
@@ -202,7 +203,7 @@ Hx = (function () {
 
     document.body.appendChild(svg)
 
-    map = {}
+    const map = {}
 
     map.refresh = (repeat = 0) => { _refresh(repeat); return map; }
     map.carpetBombTargets = (range, multiplier, delay, interval = 0) => { _carpetBombTargets(range, multiplier, delay, interval); return map; }
@@ -211,8 +212,7 @@ Hx = (function () {
     return map
   }
 
-
-  var me = {}
+  const me = {}
 
   me.Map = _hexMap
 

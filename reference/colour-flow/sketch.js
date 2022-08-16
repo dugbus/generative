@@ -5,7 +5,7 @@ let density = 50
 let seed = 50
 
 function setup() {
-    createCanvas(1080, 1350)
+    createCanvas(windowWidth, windowHeight)
     background(30)
     angleMode(DEGREES)
     noiseDetail(2)
@@ -18,7 +18,7 @@ function setup() {
 
     for (let x = 0; x < width; x += space) {
         for (let y = 0; y < height; y += space) {
-            let p = createVector(x + random(-density / 2, density / 2), y + random(-density / 2, density / 2))
+            let p = createVector(random(width), random(height))
             points.push(p)
         }
 
@@ -27,19 +27,16 @@ function setup() {
 
 function draw() {
 
-    for (let i = 0; i < points.length; i++) {
-
-        var angle = map(noise(points[i].x * noiseScale, points[i].y * noiseScale), 0, 1, 0, 720)
-
+    for (let el of points) {
+        let angle = map(noise(el.x * noiseScale, el.y * noiseScale), 0, 1, 0, 720)
         fill(angle, 100, 100, 10)
-
-        points[i].add(createVector(cos(angle), sin(angle)))
-
-
-        circle(points[i].x, points[i].y, 2)
+        el.add(createVector(cos(angle), sin(angle)))
+        circle(el.x, el.y, 2)
     }
 }
 
 function mouseClicked() {
-    saveCanvas('flowfield', 'png');
+    let today = new Date()
+    console.log(today)
+    saveCanvas('flowfield', 'png')
 }

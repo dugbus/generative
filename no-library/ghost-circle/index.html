@@ -9,27 +9,33 @@
   <meta name="description" content="experimenting with blend modes">
 
   <style>
-    @-moz-keyframes spin {
-      100% {
-        -moz-transform: rotate(360deg);
-      }
-    }
     @-webkit-keyframes spin {
       100% {
         -webkit-transform: rotate(360deg);
       }
     }
+
     @keyframes spin {
       100% {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
       }
     }
+
+    :root {
+      --blend-mode: overlay;
+    }
+
     html,
     body {
       height: 100%;
       margin: 0;
     }
+
+    img {
+      display: block;
+    }
+
     .main {
       height: 100%;
       padding: 0;
@@ -37,29 +43,46 @@
       align-items: center;
       justify-content: center;
       background: #000;
+      overflow: hidden;
     }
+
     .spinner {
       width: 512px;
       height: 512px;
       position: relative;
       border-radius: 50%;
-      overflow: hidden;
     }
+
     .spinner img {
       position: absolute;
+      transform-origin: center center;
+      width: 512px;
+      height: 512px;
+      inset: 0;
     }
+
     .plasma1 {
+      mix-blend-mode: var(--blend-mode);
       -webkit-animation: spin 8s linear reverse infinite;
       -moz-animation: spin 8s linear reverse infinite;
       animation: spin 8s linear reverse infinite;
-      opacity: 80%;
+      opacity: 50%;
     }
+
     .plasma2 {
-      mix-blend-mode: color-dodge;
-      -webkit-animation: spin 8s linear infinite;
-      -moz-animation: spin 8s linear infinite;
-      animation: spin 8s linear infinite;
-      opacity: 80%;
+      mix-blend-mode: var(--blend-mode);
+      -webkit-animation: spin 10s linear infinite;
+      -moz-animation: spin 10s linear infinite;
+      animation: spin 10s linear infinite;
+      opacity: 50%;
+    }
+
+    .mask {
+      mix-blend-mode: overlay;
+      -webkit-animation: spin 30s linear infinite;
+      -moz-animation: spin 30s linear infinite;
+      animation: spin 30s linear infinite;
+      opacity: 100%;
     }
   </style>
 </head>
@@ -68,10 +91,10 @@
 
   <main class="main">
     <div class="spinner">
-      <img src="sunburst.png" width="1024" height="1024">
-      <img class="plasma1" src="plasma-1.png" width="1024" height="1024">
-      <img class="plasma2" src="plasma-2.png" width="1024" height="1024">
-      <img src="mask.png" width="1024" height="1024">
+      <img src="sunburst.png" width="1024" height="1024" alt="sunburst">
+      <img class="plasma1" src="plasma-1.png" width="1024" height="1024" alt="plasma1">
+      <img class="plasma2" src="plasma-2.png" width="1024" height="1024" alt="plasma2">
+      <img class="mask" src="mask.png" width="1024" height="1024" alt="mask">
     </div>
   </main>
 

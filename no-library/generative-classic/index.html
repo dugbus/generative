@@ -12,8 +12,14 @@
     body {
       margin: 0;
     }
+
     canvas {
       display: block;
+      background: radial-gradient(ellipse at center,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0) 45%,
+          rgba(0, 0, 0, 0.25) 100%),
+        linear-gradient(to left bottom, #0e3063, #582d61, #b03b67, #ee674b, #fcb117) no-repeat scroll center center / cover;
     }
   </style>
 </head>
@@ -23,39 +29,39 @@
   <canvas> </canvas>
   <script>
     var canvas = document.querySelector("canvas");
-    var context = canvas.getContext("2d");
-  
+    var ctx = canvas.getContext("2d");
+
     var winWidth = window.innerWidth;
     var winHeight = window.innerHeight;
     var step = 10;
     var dpr = window.devicePixelRatio;
-  
+
     canvas.width = winWidth * dpr;
     canvas.height = winHeight * dpr;
-    context.scale(dpr, dpr);
-  
-    context.lineCap = "square";
-    context.lineWidth = 2;
-  
+    ctx.scale(dpr, dpr);
+
+    ctx.lineCap = "square";
+    ctx.lineWidth = 2;
+
     function draw(x, y, width, height) {
       var leftToRight = Math.random() >= 0.5;
-  
+
       if (leftToRight) {
-        context.moveTo(x, y);
-        context.lineTo(x + width, y + height);
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + width, y + height);
       } else {
-        context.moveTo(x + width, y);
-        context.lineTo(x, y + height);
+        ctx.moveTo(x + width, y);
+        ctx.lineTo(x, y + height);
       }
     }
-  
+
     for (var x = 0; x < winWidth; x += step) {
       for (var y = 0; y < winHeight; y += step) {
         draw(x, y, step, step);
       }
     }
-  
-    context.stroke();
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.25)';
+    ctx.stroke();
   </script>
 
 </body>
